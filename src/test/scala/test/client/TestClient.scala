@@ -42,7 +42,7 @@ object TestClient extends WordSpec with Matchers with BeforeAndAfterAll with Laz
     "getRecords" in {
       setUp()
       val beforeCount = Await.result(client.getRecords(Seq(11))).length
-      beforeCount shouldBe beforeCount - 1
+      beforeCount shouldBe 1
     }
 
     "getTags" in {
