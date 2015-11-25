@@ -8,7 +8,10 @@ libraryDependencies ++= {
   Seq(
     "org.apache.thrift" % "libthrift" % "0.8.0",
     "com.twitter" %% "scrooge-core" % "4.2.0",
-    "com.twitter" %% "finagle-thrift" % "6.30.0"
+    "com.twitter" %% "finagle-thrift" % "6.30.0",
+
+    "org.scalatest" %% "scalatest" % "2.2.4" % "test",
+    "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2"
   )
 }
 
