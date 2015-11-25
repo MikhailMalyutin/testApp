@@ -7,7 +7,7 @@ import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpec}
 import test.{Tag, Record, TestService}
 import test.server.impl.config.Config
 
-object TestClient extends WordSpec with Matchers with BeforeAndAfterAll with LazyLogging {
+class TestClient extends WordSpec with Matchers with BeforeAndAfterAll with LazyLogging {
   val client = Thrift.newIface[TestService.FutureIface](Config.SERVER_URL)
 
   def setUp() = {
