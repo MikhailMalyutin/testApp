@@ -21,31 +21,34 @@ object TestClient extends WordSpec with Matchers with BeforeAndAfterAll with Laz
     Await.result(client.addRecord(Record.apply(7, "record 7")))
     Await.result(client.addRecord(Record.apply(8, "record 8")))
     Await.result(client.addRecord(Record.apply(9, "record 9")))
+    val tag = Await.result(client.addTag(Tag.apply(11, "First tag"), 2))
   }
 
   "Test client" must {
     "add tag" in {
-      setUp
-      val beforeCount = Await.result(client.getTags(1)).length
+      setUp()
       val tag = Await.result(client.addTag(Tag.apply(11, "First tag"), 1))
       val afterCount = Await.result(client.getTags(1)).length
-      afterCount shouldBe beforeCount + 1
+      afterCount shouldBe 1
     }
 
     "remove tag" in {
-      setUp
-      val beforeCount = Await.result(client.getTags(1)).length
-      val tag = Await.result(client.removeTag(11, 1))
+      setUp()
+      val tag = Await.result(client.removeTag(11, 2))
       val afterCount = Await.result(client.getTags(1)).length
-      afterCount shouldBe beforeCount - 1
+      afterCount shouldBe 1
     }
 
     "getRecords" in {
-      setUp
+      setUp()
       val beforeCount = Await.result(client.getRecords(Seq(11))).length
-      val tag = Await.result(client.removeTag(11, 1))
-      val afterCount = Await.result(client.getTags(1)).length
-      afterCount shouldBe beforeCount - 1
+      beforeCount shouldBe beforeCount - 1
+    }
+
+    "getTags" in {
+      setUp()
+      val beforeCount = Await.result(client.getTags(2)).length
+      beforeCount shouldBe 1
     }
   }
 
