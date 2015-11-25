@@ -19,6 +19,4 @@ resolvers ++= Seq(
   "Twitter" at "http://maven.twttr.com"
 )
 
-//scroogeThriftSourceFolder in Compile <<= baseDirectory {
-//  base => base / "src/main/resources"
-//}
+managedSourceDirectories in Compile += file("target/scala-2.11/src_managed")
