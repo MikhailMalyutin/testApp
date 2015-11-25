@@ -23,3 +23,5 @@ resolvers ++= Seq(
 )
 
 managedSourceDirectories in Compile += file("target/scala-2.11/src_managed")
+
+parallelExecution in Test := false

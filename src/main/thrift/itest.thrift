@@ -12,6 +12,7 @@ struct Tag {
 
 service TestService {
    i32 addRecord(Record record),
+   void cleadAllData(),
 
    i32 addTag(Tag tag, i32 recordId),
    void removeTag(i32 tagId, i32 recordId),
