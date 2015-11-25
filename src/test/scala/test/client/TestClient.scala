@@ -8,7 +8,7 @@ import test.TestService
 import test.server.impl.config.Config
 
 object TestClient extends WordSpec with Matchers with BeforeAndAfterAll with LazyLogging {
-  val client = Thrift.newIface[TestService.FutureIface](Config.ServerUrl)
+  val client = Thrift.newIface[TestService.FutureIface](Config.SERVER_URL)
 
   "Test client" must {
     "get records" in {

@@ -7,7 +7,7 @@ import test.server.impl.config.Config
 
 object ServerApp {
   def runServer(): Unit = {
-    val server = Thrift.serveIface(Config.ServerUrl, MainLogic)
+    val server = Thrift.serveIface(Config.SERVER_URL, MainLogic)
     print("Server started")
     Await.ready(server)
     print("Server stopped")
