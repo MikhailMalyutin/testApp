@@ -11,8 +11,10 @@ struct Tag {
 }
 
 service TestService {
-   i32 addTag(Tag tag),
-   void removeTag(i32 tagId),
+   i32 addRecord(Record record),
+
+   i32 addTag(Tag tag, i32 recordId),
+   void removeTag(i32 tagId, i32 recordId),
    list<Record> getRecords(list<i32> tags),
    list<Tag> getTags(i32 recordId)
 }
