@@ -23,8 +23,8 @@ object MainLogic extends TestService[Future] {
 
   override def addTag(tag: test.Tag, recordId: Int) = Future {
     IdsToTags += tag.id -> tag
-    RecordIdToTagIds.getOrElseUpdate(recordId, Set[Int]()) + tag.id
-    TagIdRecordsIds.getOrElseUpdate(recordId, Set[Int]()) + recordId
+    RecordIdToTagIds += recordId -> (RecordIdToTagIds.getOrElseUpdate(recordId, Set[Int]()) + tag.id)
+    TagIdRecordsIds += tag.id -> (TagIdRecordsIds.getOrElseUpdate(tag.id, Set[Int]()) + recordId)
     tag.id
   }
 
@@ -36,9 +36,9 @@ object MainLogic extends TestService[Future] {
 
   override def removeTag(tagId: Int, recordId: Int): Future[Unit] = Future {
     val recordsForTag = TagIdRecordsIds.get(tagId).get
-    TagIdRecordsIds += tagId -> recordsForTag - recordId
+    TagIdRecordsIds += tagId -> (recordsForTag - recordId)
     val tagsForRecord = RecordIdToTagIds.get(recordId).get
-    RecordIdToTagIds += recordId -> tagsForRecord - tagId
+    RecordIdToTagIds += recordId -> (tagsForRecord - tagId)
   }
 
   override def getTags(recordId: Int): Future[Seq[Tag]] = Future {
