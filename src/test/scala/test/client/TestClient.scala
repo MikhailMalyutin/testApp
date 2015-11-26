@@ -21,7 +21,8 @@ class TestClient extends WordSpec with Matchers with BeforeAndAfterAll with Lazy
     Await.result(client.addRecord(Record.apply(7, "record 7")))
     Await.result(client.addRecord(Record.apply(8, "record 8")))
     Await.result(client.addRecord(Record.apply(9, "record 9")))
-    val tag = Await.result(client.addTag(Tag.apply(11, "First tag"), 2))
+    Await.result(client.addTag(Tag.apply(11, "First tag"), 2))
+    Await.result(client.addTag(Tag.apply(12, "Second tag"), 2))
   }
 
   "Test client" must {
@@ -35,7 +36,7 @@ class TestClient extends WordSpec with Matchers with BeforeAndAfterAll with Lazy
     "remove tag" in {
       setUp()
       val tag = Await.result(client.removeTag(11, 2))
-      val afterCount = Await.result(client.getTags(1)).length
+      val afterCount = Await.result(client.getTags(2)).length
       afterCount shouldBe 1
     }
 
@@ -48,7 +49,7 @@ class TestClient extends WordSpec with Matchers with BeforeAndAfterAll with Lazy
     "getTags" in {
       setUp()
       val beforeCount = Await.result(client.getTags(2)).length
-      beforeCount shouldBe 1
+      beforeCount shouldBe 2
     }
   }
 
