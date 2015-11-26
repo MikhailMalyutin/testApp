@@ -20,6 +20,7 @@ class TestClient extends WordSpec with Matchers {
     Await.result(client.addRecord(Record.apply(7, "record 7")))
     Await.result(client.addRecord(Record.apply(8, "record 8")))
     Await.result(client.addRecord(Record.apply(9, "record 9")))
+    Await.result(client.addTag(Tag.apply(11, "First tag"), 3))
     Await.result(client.addTag(Tag.apply(11, "First tag"), 2))
     Await.result(client.addTag(Tag.apply(12, "Second tag"), 2))
   }
@@ -29,7 +30,7 @@ class TestClient extends WordSpec with Matchers {
       setUp()
       Await.result(client.getTags(1)).length shouldBe 0
       Await.result(client.getTags(2)).length shouldBe 2
-      Await.result(client.getTags(3)).length shouldBe 0
+      Await.result(client.getTags(3)).length shouldBe 1
       Await.result(client.getTags(4)).length shouldBe 0
       Await.result(client.getTags(5)).length shouldBe 0
       Await.result(client.getTags(6)).length shouldBe 0
@@ -57,15 +58,19 @@ class TestClient extends WordSpec with Matchers {
 
     "getRecords" in {
       setUp()
-      Await.result(client.getRecords(Seq(11))).length shouldBe 1
+      val recordsForTag11: Seq[Record] = Await.result(client.getRecords(Seq(11)))
+      recordsForTag11.length shouldBe 2
+      recordsForTag11.map(record => record.name).toSet shouldBe Set("record 2", "record 3")
       Await.result(client.getRecords(Seq(12))).length shouldBe 1
       Await.result(client.getRecords(Seq(13))).length shouldBe 0
     }
 
     "getTags" in {
       setUp()
-      Await.result(client.getTags(2)).length shouldBe 2
-      Await.result(client.getTags(3)).length shouldBe 0
+      val tagsFprRecord2: Seq[Tag] = Await.result(client.getTags(2))
+      tagsFprRecord2.length shouldBe 2
+      tagsFprRecord2.map(tag => tag.name).toSet shouldBe Set("First tag", "Second tag")
+      Await.result(client.getTags(3)).length shouldBe 1
       Await.result(client.getTags(300)).length shouldBe 0
     }
   }
