@@ -34,7 +34,7 @@ object MainLogic extends TestService[Future] {
       .flatMap(IdsToRecords.get)
   }
 
-  override def removeTag(tagId: Int, recordId: Int): Future[Unit] = Future {
+  override def removeTag(tagId: Int, recordId: Int): Future[Int] = Future {
     TagIdRecordsIds
       .get(tagId)
       .foreach(recordsForTag
@@ -43,6 +43,7 @@ object MainLogic extends TestService[Future] {
       .get(recordId)
       .foreach(tagsForRecord
           => RecordIdToTagIds += recordId -> (tagsForRecord - tagId))
+    tagId
   }
 
   override def getTags(recordId: Int): Future[Seq[Tag]] = Future {
