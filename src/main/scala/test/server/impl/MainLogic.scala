@@ -29,7 +29,7 @@ object MainLogic extends TestService[Future] {
   }
 
   override def getRecords(tags: Seq[Int]): Future[Seq[Record]] = Future{
-      val some = tags.map(tagId => TagIdRecordsIds.get(tagId)).flatMap { case Some(recId) => recId }
+      val some = tags.map(TagIdRecordsIds.get).flatMap { case Some(recId) => recId }
       some.map{recId => IdsToRecords.get(recId)}.map{case Some(record) => record}
   }
 
