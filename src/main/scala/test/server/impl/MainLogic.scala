@@ -30,7 +30,7 @@ object MainLogic extends TestService[Future] {
 
   override def getRecords(tags: Seq[Int]): Future[Seq[Record]] = Future{
       val some = tags.flatMap(TagIdRecordsIds.get).flatten
-      some.map{recId => IdsToRecords.get(recId)}.map{case Some(record) => record}
+      some.flatMap { recId => IdsToRecords.get(recId) }
   }
 
   override def removeTag(tagId: Int, recordId: Int): Future[Unit] = Future{
