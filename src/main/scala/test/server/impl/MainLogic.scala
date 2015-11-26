@@ -46,10 +46,14 @@ object MainLogic extends TestService[Future] {
   }
 
   override def getTags(recordId: Int): Future[Seq[Tag]] = Future {
-    RecordIdToTagIds.get(recordId)
-      .get
-      .flatMap(IdsToTags.get)
-      .toSeq
+    val tagsList =
+      for {
+        tagIds <- RecordIdToTagIds.get(recordId).toSeq
+        tagId <- tagIds
+        tag <- IdsToTags.get(tagId)
+      } yield tag
+
+    tagsList.toSeq
   }
 
 
