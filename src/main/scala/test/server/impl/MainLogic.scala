@@ -35,10 +35,14 @@ object MainLogic extends TestService[Future] {
   }
 
   override def removeTag(tagId: Int, recordId: Int): Future[Unit] = Future {
-    val recordsForTag = TagIdRecordsIds.get(tagId).get
-    TagIdRecordsIds += tagId -> (recordsForTag - recordId)
-    val tagsForRecord = RecordIdToTagIds.get(recordId).get
-    RecordIdToTagIds += recordId -> (tagsForRecord - tagId)
+    TagIdRecordsIds
+      .get(tagId)
+      .foreach(recordsForTag
+          => TagIdRecordsIds += tagId -> (recordsForTag - recordId))
+    RecordIdToTagIds
+      .get(recordId)
+      .foreach(tagsForRecord
+          => RecordIdToTagIds += recordId -> (tagsForRecord - tagId))
   }
 
   override def getTags(recordId: Int): Future[Seq[Tag]] = Future {
