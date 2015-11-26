@@ -26,30 +26,48 @@ class TestClient extends WordSpec with Matchers with BeforeAndAfterAll with Lazy
   }
 
   "Test client" must {
+    "be initialized with test data" in {
+      setUp()
+      Await.result(client.getTags(1)).length shouldBe 0
+      Await.result(client.getTags(2)).length shouldBe 2
+      Await.result(client.getTags(3)).length shouldBe 0
+      Await.result(client.getTags(4)).length shouldBe 0
+      Await.result(client.getTags(5)).length shouldBe 0
+      Await.result(client.getTags(6)).length shouldBe 0
+      Await.result(client.getTags(7)).length shouldBe 0
+      Await.result(client.getTags(8)).length shouldBe 0
+      Await.result(client.getTags(9)).length shouldBe 0
+    }
+
     "add tag" in {
       setUp()
-      val tag = Await.result(client.addTag(Tag.apply(11, "First tag"), 1))
-      val afterCount = Await.result(client.getTags(1)).length
-      afterCount shouldBe 1
+      Await.result(client.addTag(Tag.apply(11, "First tag"), 1))
+      Await.result(client.getTags(1)).length shouldBe 1
+      Await.result(client.addTag(Tag.apply(13, "Third tag"), 2))
+      Await.result(client.getTags(2)).length shouldBe 3
     }
 
     "remove tag" in {
       setUp()
-      val tag = Await.result(client.removeTag(11, 2))
-      val afterCount = Await.result(client.getTags(2)).length
-      afterCount shouldBe 1
+      Await.result(client.getTags(2)).length shouldBe 2
+      Await.result(client.removeTag(11, 2))
+      Await.result(client.getTags(2)).length shouldBe 1
+      Await.result(client.removeTag(11, 3))
+      Await.result(client.getTags(3)).length shouldBe 0
     }
 
     "getRecords" in {
       setUp()
-      val beforeCount = Await.result(client.getRecords(Seq(11))).length
-      beforeCount shouldBe 1
+      Await.result(client.getRecords(Seq(11))).length shouldBe 1
+      Await.result(client.getRecords(Seq(12))).length shouldBe 1
+      Await.result(client.getRecords(Seq(13))).length shouldBe 0
     }
 
     "getTags" in {
       setUp()
-      val beforeCount = Await.result(client.getTags(2)).length
-      beforeCount shouldBe 2
+      Await.result(client.getTags(2)).length shouldBe 2
+      Await.result(client.getTags(3)).length shouldBe 0
+      Await.result(client.getTags(300)).length shouldBe 0
     }
   }
 
