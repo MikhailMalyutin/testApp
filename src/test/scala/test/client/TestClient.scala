@@ -2,12 +2,11 @@ package test.client
 
 import com.twitter.finagle.Thrift
 import com.twitter.util.Await
-import com.typesafe.scalalogging.slf4j.LazyLogging
-import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpec}
+import org.scalatest.{Matchers, WordSpec}
 import test.{Tag, Record, TestService}
 import test.server.impl.config.Config
 
-class TestClient extends WordSpec with Matchers with BeforeAndAfterAll with LazyLogging {
+class TestClient extends WordSpec with Matchers {
   val client = Thrift.newIface[TestService.FutureIface](Config.SERVER_URL)
 
   def setUp() = {
