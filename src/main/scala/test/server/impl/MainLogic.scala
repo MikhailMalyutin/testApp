@@ -23,25 +23,27 @@ object MainLogic extends TestService[Future] {
 
   override def addTag(tag: test.Tag, recordId: Int) = Future {
     IdsToTags += tag.id -> tag
-    RecordIdToTagIds.getOrElseUpdate(recordId, Set[Int]())+tag.id
-    TagIdRecordsIds.getOrElseUpdate(recordId, Set[Int]())+recordId
+    RecordIdToTagIds.getOrElseUpdate(recordId, Set[Int]()) + tag.id
+    TagIdRecordsIds.getOrElseUpdate(recordId, Set[Int]()) + recordId
     tag.id
   }
 
-  override def getRecords(tags: Seq[Int]): Future[Seq[Record]] = Future{
-      tags.flatMap(TagIdRecordsIds.get)
-        .flatten
-        .flatMap(IdsToRecords.get)
+  override def getRecords(tags: Seq[Int]): Future[Seq[Record]] = Future {
+    tags.flatMap(TagIdRecordsIds.get)
+      .flatten
+      .flatMap(IdsToRecords.get)
   }
 
-  override def removeTag(tagId: Int, recordId: Int): Future[Unit] = Future{
-    val recordsForTag = TagIdRecordsIds.get(tagId).map(case Some())
+  override def removeTag(tagId: Int, recordId: Int): Future[Unit] = Future {
+    val recordsForTag = TagIdRecordsIds.get(tagId).flatten
     //recordsForTag.re
   }
 
-  override def getTags(recordId: Int): Future[Seq[Tag]] = Future{
-    //IdsToRecords.get(recordId).map()
-    Seq.empty
+  override def getTags(recordId: Int): Future[Seq[Tag]] = Future {
+    RecordIdToTagIds.get(recordId)
+      .get
+      .flatMap(IdsToTags.get)
+      .toSeq
   }
 
 
